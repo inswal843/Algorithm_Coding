@@ -2,12 +2,12 @@ import sys
 input = sys.stdin.readline
 N = int(input())
 data = [list(map(int, input().split())) for _ in range(N)]
-# print(data)
 visited = [False] * N
 min_val = sys.maxsize
-def back(d, idx):
+def back(n, idx):
     global min_val
-    if d==N//2:
+    global visited
+    if n == N//2:
         team1 = 0
         team2 = 0
         for i in range(N):
@@ -19,9 +19,8 @@ def back(d, idx):
         min_val = min(min_val, abs(team1 - team2))
     else:
         for i in range(idx, N):
-            if not visited[i]:
-                visited[i] = True
-                back(d+1, i+1)
-                visited[i] = False
-back(0,0)
+            visited[i] = True
+            back(n+1, i+1)
+            visited[i] = False
+back(0, 0)
 print(min_val)
