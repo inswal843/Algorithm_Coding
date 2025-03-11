@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     public int solution(int[][] sizes) {
         int max_w = 0, max_h = 0;
