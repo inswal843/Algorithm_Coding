@@ -3,46 +3,34 @@ import java.util.*;
 class Solution {
     public int solution(String numbers) {
         List<String> nums = Arrays.asList(numbers.split(""));
-
         Set<Integer> primeSet = new HashSet<>();
 
-
-        for (int i = 1; i <= nums.size(); i++) {
-            for (int j = 0; j < nums.size(); j++) {
-                boolean[] visited = new boolean[nums.size()];
-                visited[j] = true;
-                backTrack(primeSet, visited, nums, i, 1, nums.get(j));
-            }
+        for (int length = 1; length <= nums.size(); length++) {
+            backTrack(primeSet, new boolean[nums.size()], nums, length, 0, "");
         }
-
-        int answer = primeSet.size();
-
-        System.out.println("primeSet = " + primeSet);
-
-        return answer;
+        return primeSet.size();
     }
 
-    public void backTrack(Set<Integer> set, boolean[] visited, List<String> nums, int limit, int index, String num) {
-        if (index == limit){
-            if(isPrime(num)){
-                set.add(Integer.parseInt(num));
+    public void backTrack(Set<Integer> primeSet, boolean[] visited, List<String> nums, int limit, int curLength, String curNumber) {
+        if (curLength == limit){
+            int number = Integer.parseInt(curNumber);
+            if(isPrime(number)){
+                primeSet.add(number);
             }
-        }else{
+        } else {
             for (int i = 0; i < nums.size(); i++) {
-                if (visited[i] == false){
+                if (!visited[i]){
                     visited[i] = true;
-                    backTrack(set, visited, nums, limit, index+1, num + nums.get(i));
+                    backTrack(primeSet, visited, nums, limit, curLength+1, curNumber + nums.get(i));
                     visited[i] = false;
                 }
             }
         }
     }
 
-    public boolean isPrime(String numbers) {
-        int number = Integer.parseInt(numbers);
+    public boolean isPrime(int number) {
         if(number < 2) return false;
-        int sqrt = (int) Math.sqrt(number);
-        for (int i = 2; i <= sqrt; i++) {
+        for (int i = 2; i <= (int) Math.sqrt(number); i++) {
             if (number % i == 0) return false;
         }
         return true;
